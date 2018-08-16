@@ -30,17 +30,22 @@ module['exports'] = function helloWorld (hook) {
   output += '```';
 
   var content = {
-    "username": "FPL Updates",
-    "avatar_url": "https://fantasy.premierleague.com/static/libsass/plfpl/dist/img/facebook-share.png",
+    "username":"FPL Updates",
+    "avatar_url":"https://fantasy.premierleague.com/static/libsass/plfpl/dist/img/facebook-share.png",
     "content": output,
-    "embeds": [{
-      "color": 65415,
-      "footer": {
-        "text": "automated from /r/FantasyPL",
-        "icon_url": "https://fantasy.premierleague.com/static/libsass/plfpl/dist/img/facebook-share.png"
-      }
-    }]
-  }
+    "embeds":[
+        {
+          "title": hook.params.title,
+          "url": hook.params.url,
+          "color":65415,
+          "footer":{
+              "text": "automated from /r/FantasyPL",
+              "icon_url":"https://fantasy.premierleague.com/static/libsass/plfpl/dist/img/facebook-share.png"
+          }
+        }
+    ]
+  };
+
   return request.post({
     url : 'https://discordapp.com/api/webhooks/479192426062413825/8ITUz1M8gL4kGELGZW6ulqGFY6oUWhjOXEGYT-o_c6PVlorVWklf4avs_jjS5Z1hl9_0', 
     body : content,
