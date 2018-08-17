@@ -2,10 +2,13 @@
 // Click "Deploy Service" to deploy this code
 // Service will respond to HTTP requests with a string
 module['exports'] = function helloWorld (hook) {
+  console.log(hook.params);
+
   var request = require('request');
   const cheerio = require('cheerio');
   var $ = cheerio.load(hook.params.text);
   var output = '```md\n';
+
   $('h3').each(function(i, header){
       var rows = $($('table>tbody')[i]).find('tr');
       var sign = i % 2 === 0 ? ' ⬆ ' : ' ⬇ ';
@@ -46,14 +49,18 @@ module['exports'] = function helloWorld (hook) {
     ]
   };
 
+  console.log(content);
+
   return request.post({
     url : 'https://discordapp.com/api/webhooks/479192426062413825/8ITUz1M8gL4kGELGZW6ulqGFY6oUWhjOXEGYT-o_c6PVlorVWklf4avs_jjS5Z1hl9_0', 
     body : content,
     json: true
   },function (err, res, body) {
       if (err) {
-        hook.res.end(err.messsage);
+        console.log("Error : "+err.message);
+        return hook.res.end(err.messsage);
       }
+      console.log("Success");
       hook.res.end(body);
   });
 };
