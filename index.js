@@ -6,6 +6,7 @@ module['exports'] = function helloWorld (hook) {
 
   var request = require('request');
   const cheerio = require('cheerio');
+  var Table = require('easy-table');
   var $ = cheerio.load(hook.params.text);
   var output = '```md\n';
 
@@ -13,22 +14,17 @@ module['exports'] = function helloWorld (hook) {
       var rows = $($('table>tbody')[i]).find('tr');
       var sign = i % 2 === 0 ? ' ⬆ ' : ' ⬇ ';
       
-      output += '# ' + $(header).text() + ' #:\n';
-
+      output += '# ' + $(header).text() + ' #:\n\n';
+      var table = new Table;
       rows.each(function(i, row){
         var cells = $(row).find('td');
-        var name = $(cells[0]).text();
-        var team = $(cells[1]).text();
-        var newprice = $(cells[5]).text();
-        // var position = $(cells[2]).text();
-        // var ownership = $(cells[3]).text();
-        // var oldprice = $(cells[4]).text();
-        // var diff = $(cells[6]).text();
-
-        output += name + ' ('+team+') ' + sign + newprice + '\n';
+        table.cell('Name', $(cells[0]).text());
+        table.cell('Net Transfers', $(cells[1]).text());
+        table.cell('Change %', $(cells[2]).text());
+        table.cell('Ownership %', $(cells[3]).text());
+        table.newRow();
       });
-
-      output += '\n\n';
+      output += table.toString();
   });
   output += '```';
 
