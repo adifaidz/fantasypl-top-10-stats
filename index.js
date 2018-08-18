@@ -48,7 +48,7 @@ module['exports'] = function helloWorld (hook) {
   console.log(content);
 
   return request.post({
-    url : 'https://discordapp.com/api/webhooks/479192426062413825/8ITUz1M8gL4kGELGZW6ulqGFY6oUWhjOXEGYT-o_c6PVlorVWklf4avs_jjS5Z1hl9_0', 
+    url : 'https://discordapp.com/api/webhooks/' + hook.env.discord_webhook_id, 
     body : content,
     json: true
   },function (err, res, body) {
